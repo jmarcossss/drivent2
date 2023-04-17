@@ -1,7 +1,7 @@
 {
   "name": "drint.t-back",
   "version": "1.0.0",
-  "description": "",
+  "description": "Back-end for Driven.t, an event management solution.",
   "main": "dist/index.js",
   "scripts": {
     "prebuild": "rm -rf dist",
@@ -88,5 +88,16 @@
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "reflect-metadata": "^0.1.13"
-  }
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmarcossss/drivent2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jmarcossss/drivent2/issues"
+  },
+  "homepage": "https://github.com/jmarcossss/drivent2#readme"
 }
