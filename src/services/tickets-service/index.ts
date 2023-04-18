@@ -3,13 +3,15 @@ import ticketRepository from '@/repositories/ticket-repository';
 import enrollmentRepository from '@/repositories/enrollment-repository';
 
 async function findTickets(userId: number) {
-  const { id: enrollmentId } = await enrollmentRepository.findEnrollmentByUserId(userId);
-  if (!enrollmentId) throw notFoundError();
-  return await ticketRepository.findTickets();
+  const enrollment = await enrollmentRepository.findEnrollmentByUserId(userId);
+  if (!enrollment) throw notFoundError();
+  const tickets = await ticketRepository.findTickets();
+  return tickets;
 }
 
 async function findTicketsTypes() {
-  return await ticketRepository.findTicketsTypes();
+  const ticketTypes = await ticketRepository.findTicketsTypes();
+  return ticketTypes;
 }
 
 type CreateTicketType = {
@@ -19,15 +21,22 @@ type CreateTicketType = {
 
 async function createTicket(ticket: CreateTicketType) {
   const { ticketTypeId, userId } = ticket;
-  const { id: enrollmentId } = await enrollmentRepository.findEnrollmentByUserId(userId);
-  if (!enrollmentId) throw notFoundError();
-  const response = await ticketRepository.createTicket({ ticketTypeId, enrollmentId });
+  const enrollment = await enrollmentRepository.findEnrollmentByUserId(userId);
+  if (!enrollment) throw notFoundError();
+
+  const ticketData = {
+    ticketTypeId,
+    enrollmentId: enrollment.id,
+  };
+
+  const response = await ticketRepository.createTicket(ticketData);
   if (!response) throw notFoundError();
   return response;
 }
 
 async function getTicketType(ticketTypeId: number) {
-  return await ticketRepository.findTicketTypeById(ticketTypeId);
+  const ticketType = await ticketRepository.findTicketTypeById(ticketTypeId);
+  return ticketType;
 }
 
 const ticketsService = {
