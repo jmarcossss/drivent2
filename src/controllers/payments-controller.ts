@@ -6,29 +6,41 @@ import { badRequestError } from '@/errors';
 
 export async function findPayments(_req: AuthenticatedRequest, res: Response) {
   const { userId } = _req as { userId: number };
-  const ticketId = +_req.query.ticketId;
+  const ticketId = Number(_req.query.ticketId);
+
+  if (!ticketId) {
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
 
   try {
-    if (!ticketId) throw badRequestError();
     const [payments] = await paymentsService.findPayments({ userId, ticketId });
-    return res.status(httpStatus.OK).send(payments);
+    res.status(httpStatus.OK).send(payments);
   } catch (error) {
-    if (error.name === 'BadRequestError') {
-      return res.sendStatus(httpStatus.BAD_REQUEST);
+    switch (error.name) {
+      case 'BadRequestError':
+        res.sendStatus(httpStatus.BAD_REQUEST);
+        break;
+      case 'NotFoundError':
+        res.sendStatus(httpStatus.NOT_FOUND);
+        break;
+      case 'UnauthorizedError':
+        res.sendStatus(httpStatus.UNAUTHORIZED);
+        break;
+      default:
+        res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
     }
-    if (error.name === 'NotFoundError') {
-      return res.sendStatus(httpStatus.NOT_FOUND);
-    }
-    if (error.name === 'UnauthorizedError') {
-      return res.sendStatus(httpStatus.UNAUTHORIZED);
-    }
-    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
   }
 }
 
 export type PaymentInfoType = {
   ticketId: number;
-  cardData: { issuer: string; number: number; name: string; expirationDate: Date; cvv: number };
+  cardData: {
+    issuer: string;
+    number: number;
+    name: string;
+    expirationDate: Date;
+    cvv: number;
+  };
 };
 
 export async function createPayment(_req: AuthenticatedRequest, res: Response) {
@@ -37,15 +49,18 @@ export async function createPayment(_req: AuthenticatedRequest, res: Response) {
 
   try {
     const payment = await paymentsService.createPayment({ paymentInfo, userId });
-    return res.status(httpStatus.OK).send(payment);
+    res.status(httpStatus.OK).send(payment);
   } catch (error) {
-    if (error.name === 'NotFoundError') {
-      return res.sendStatus(httpStatus.NOT_FOUND);
+    switch (error.name) {
+      case 'NotFoundError':
+        res.sendStatus(httpStatus.NOT_FOUND);
+        break;
+      case 'UnauthorizedError':
+        res.sendStatus(httpStatus.UNAUTHORIZED);
+        break;
+      default:
+        console.log(error);
+        res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
     }
-    if (error.name === 'UnauthorizedError') {
-      return res.sendStatus(httpStatus.UNAUTHORIZED);
-    }
-    console.log(error);
-    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
   }
 }
