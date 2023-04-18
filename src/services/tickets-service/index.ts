@@ -2,7 +2,7 @@ import { notFoundError } from '@/errors';
 import ticketRepository from '@/repositories/ticket-repository';
 import enrollmentRepository from '@/repositories/enrollment-repository';
 
-async function findTickets(userId: number) {
+async function ticketsDone(userId: number) {
   const enrollment = await enrollmentRepository.findEnrollmentByUserId(userId);
   if (!enrollment) {
     throw notFoundError();
@@ -11,7 +11,7 @@ async function findTickets(userId: number) {
   return tickets;
 }
 
-async function findTicketsTypes() {
+async function ticketsDoneAuth() {
   const ticketTypes = await ticketRepository.findTicketsTypes();
   return ticketTypes;
 }
@@ -36,6 +36,6 @@ async function getTicketType(ticketTypeId: number) {
   return ticketType;
 }
 
-const ticketsService = { createTicket, getTicketType, findTickets, findTicketsTypes };
+const ticketsService = { createTicket, getTicketType, ticketsDone, ticketsDoneAuth };
 
 export default ticketsService;

@@ -3,11 +3,11 @@ import httpStatus from 'http-status';
 import { AuthenticatedRequest } from '@/middlewares';
 import ticketsService from '@/services/tickets-service';
 
-export async function findTickets(_req: AuthenticatedRequest, res: Response) {
+export async function ticketsDone(_req: AuthenticatedRequest, res: Response) {
   const { userId } = _req as { userId: number };
 
   try {
-    const [tickets] = await ticketsService.findTickets(userId);
+    const [tickets] = await ticketsService.ticketsDone(userId);
     if (!tickets) {
       throw new Error();
     }
@@ -17,9 +17,9 @@ export async function findTickets(_req: AuthenticatedRequest, res: Response) {
   }
 }
 
-export async function findTicketsTypes(_req: AuthenticatedRequest, res: Response) {
+export async function ticketsDoneAuth(_req: AuthenticatedRequest, res: Response) {
   try {
-    const ticketsTypes = await ticketsService.findTicketsTypes();
+    const ticketsTypes = await ticketsService.ticketsDoneAuth();
     res.status(httpStatus.OK).send(ticketsTypes);
   } catch (error) {
     res.status(httpStatus.NOT_FOUND).send({});
