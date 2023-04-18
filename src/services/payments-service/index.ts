@@ -9,39 +9,45 @@ type FindPaymentsType = { userId: number; ticketId: number };
 async function findPayments({ userId, ticketId }: FindPaymentsType) {
   const ticket = await ticketRepository.findTicketById(ticketId);
 
-  if (!ticket) throw notFoundError();
+  if (!ticket) {
+    throw notFoundError();
+  }
 
   const enrollment = await enrollmentRepository.findEnrollmentById(ticket.enrollmentId);
 
-  if (!enrollment) throw notFoundError();
+  if (!enrollment) {
+    throw notFoundError();
+  }
 
-  if (enrollment.userId !== userId) throw unauthorizedError();
+  if (enrollment.userId !== userId) {
+    throw unauthorizedError();
+  }
 
   const payments = await paymentsRepository.findPayments();
   return payments;
 }
 
-type CreatePaymentType = {
-  paymentInfo: PaymentInfoType;
-  userId: number;
-};
+type CreatePaymentType = { paymentInfo: PaymentInfoType; userId: number };
 
 async function createPayment({ paymentInfo, userId }: CreatePaymentType) {
   const { ticketId, cardData } = paymentInfo;
-
   const ticket = await ticketRepository.findTicketById(ticketId);
-
-  if (!ticket) throw notFoundError();
+  if (!ticket) {
+    throw notFoundError();
+  }
 
   const ticketType = await ticketRepository.findTicketTypeById(ticket.ticketTypeId);
   const enrollment = await enrollmentRepository.findEnrollmentById(ticket.enrollmentId);
 
-  if (!enrollment) throw notFoundError();
+  if (!enrollment) {
+    throw notFoundError();
+  }
 
-  if (enrollment.userId !== userId) throw unauthorizedError();
+  if (enrollment.userId !== userId) {
+    throw unauthorizedError();
+  }
 
   await ticketRepository.updateTicketById(ticketId);
-
   const payment = await paymentsRepository.createPayment({ ticketId, cardData, value: ticketType.price });
   return payment;
 }

@@ -2,9 +2,7 @@ import { prisma } from '@/config';
 
 async function findTickets() {
   const tickets = await prisma.ticket.findMany({
-    include: {
-      TicketType: true,
-    },
+    include: { TicketType: true },
   });
   return tickets;
 }
@@ -27,24 +25,12 @@ async function findTicketTypeById(ticketTypeId: number) {
 type CreateTicketType = { ticketTypeId: number; enrollmentId: number };
 
 async function createTicket(ticket: CreateTicketType) {
-  const createdTicket = await prisma.ticket.create({
-    data: {
-      ...ticket,
-      status: 'RESERVED',
-    },
-  });
-
+  const createdTicket = await prisma.ticket.create({ data: { ...ticket, status: 'RESERVED' } });
   return createdTicket;
 }
 
 async function updateTicketById(ticketId: number) {
-  const updatedTicket = await prisma.ticket.update({
-    where: { id: ticketId },
-    data: {
-      status: 'PAID',
-    },
-  });
-
+  const updatedTicket = await prisma.ticket.update({ where: { id: ticketId }, data: { status: 'PAID' } });
   return updatedTicket;
 }
 

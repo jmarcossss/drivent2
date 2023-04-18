@@ -33,10 +33,7 @@ export async function createTicket(_req: AuthenticatedRequest, res: Response) {
   try {
     const response = await ticketsService.createTicket({ ticketTypeId, userId });
     const typeResponse = await ticketsService.getTicketType(ticketTypeId);
-    res.status(httpStatus.CREATED).send({
-      ...response,
-      TicketType: { ...typeResponse },
-    });
+    res.status(httpStatus.CREATED).send({ ...response, TicketType: { ...typeResponse } });
   } catch (error) {
     res.status(httpStatus.NOT_FOUND).send({});
   }

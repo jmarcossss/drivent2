@@ -19,9 +19,6 @@ async function createPayment({ ticketId, cardData, value }: PaymentInfoType & { 
   return payment;
 }
 
-const paymentsRepository = {
-  findPayments,
-  createPayment,
-};
+const paymentsRepository = { findPayments, createPayment };
 
 export default paymentsRepository;

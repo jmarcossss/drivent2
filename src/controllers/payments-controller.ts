@@ -34,13 +34,7 @@ export async function findPayments(_req: AuthenticatedRequest, res: Response) {
 
 export type PaymentInfoType = {
   ticketId: number;
-  cardData: {
-    issuer: string;
-    number: number;
-    name: string;
-    expirationDate: Date;
-    cvv: number;
-  };
+  cardData: { issuer: string; number: number; name: string; expirationDate: Date; cvv: number };
 };
 
 export async function createPayment(_req: AuthenticatedRequest, res: Response) {
