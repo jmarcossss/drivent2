@@ -11,7 +11,10 @@ type CreatePaymentType = {
   };
 };
 
+const ticketIdSchema = Joi.number().required();
+const cardDataSchema = Joi.object().required();
+
 export const createPaymentSchema = Joi.object<CreatePaymentType>({
-  ticketId: Joi.number().required(),
-  cardData: Joi.object().required(),
+  ticketId: ticketIdSchema,
+  cardData: cardDataSchema,
 });
