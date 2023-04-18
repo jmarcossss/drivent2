@@ -3,7 +3,7 @@ import httpStatus from 'http-status';
 import { AuthenticatedRequest } from '@/middlewares';
 import paymentsService from '@/services/payments-service';
 
-export async function findPayments(_req: AuthenticatedRequest, res: Response) {
+export async function paymentDone(_req: AuthenticatedRequest, res: Response) {
   const { userId } = _req as { userId: number };
   const ticketId = Number(_req.query.ticketId);
 
@@ -12,7 +12,7 @@ export async function findPayments(_req: AuthenticatedRequest, res: Response) {
   }
 
   try {
-    const [payments] = await paymentsService.findPayments({ userId, ticketId });
+    const [payments] = await paymentsService.paymentDone({ userId, ticketId });
     res.status(httpStatus.OK).send(payments);
   } catch (error) {
     switch (error.name) {

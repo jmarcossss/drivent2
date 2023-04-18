@@ -6,7 +6,7 @@ import { PaymentInfoType } from '@/controllers';
 
 type FindPaymentsType = { userId: number; ticketId: number };
 
-async function findPayments({ userId, ticketId }: FindPaymentsType) {
+async function paymentDone({ userId, ticketId }: FindPaymentsType) {
   const ticket = await ticketRepository.findTicketById(ticketId);
 
   if (!ticket) {
@@ -52,6 +52,6 @@ async function createPayment({ paymentInfo, userId }: CreatePaymentType) {
   return payment;
 }
 
-const paymentsService = { findPayments, createPayment };
+const paymentsService = { paymentDone, createPayment };
 
 export default paymentsService;
