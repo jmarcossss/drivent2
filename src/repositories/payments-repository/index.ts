@@ -2,11 +2,12 @@ import { prisma } from '@/config';
 import { PaymentInfoType } from '@/controllers';
 
 async function findPayments() {
-  return await prisma.payment.findMany();
+  const payments = await prisma.payment.findMany();
+  return payments;
 }
 
 async function createPayment({ ticketId, cardData, value }: PaymentInfoType & { value: number }) {
-  return await prisma.payment.create({
+  const payment = await prisma.payment.create({
     data: {
       ticketId,
       cardIssuer: cardData.issuer,
@@ -14,6 +15,8 @@ async function createPayment({ ticketId, cardData, value }: PaymentInfoType & { 
       value: value,
     },
   });
+
+  return payment;
 }
 
 const paymentsRepository = {
