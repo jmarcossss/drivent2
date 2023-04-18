@@ -8,14 +8,8 @@ async function findPayments() {
 
 async function createPayment({ ticketId, cardData, value }: PaymentInfoType & { value: number }) {
   const payment = await prisma.payment.create({
-    data: {
-      ticketId,
-      cardIssuer: cardData.issuer,
-      cardLastDigits: String(cardData.number).slice(-4),
-      value: value,
-    },
+    data: { ticketId, cardIssuer: cardData.issuer, cardLastDigits: String(cardData.number).slice(-4), value: value },
   });
-
   return payment;
 }
 
