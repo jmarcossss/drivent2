@@ -2,7 +2,6 @@ import { Response } from 'express';
 import httpStatus from 'http-status';
 import { AuthenticatedRequest } from '@/middlewares';
 import paymentsService from '@/services/payments-service';
-// import { badRequestError } from '@/errors';
 
 export async function findPayments(_req: AuthenticatedRequest, res: Response) {
   const { userId } = _req as { userId: number };
