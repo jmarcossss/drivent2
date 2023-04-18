@@ -10,6 +10,18 @@ async function findWithAddressByUserId(userId: number) {
   });
 }
 
+async function findEnrollmentById(id: number): Promise<Enrollment> {
+  return prisma.enrollment.findUnique({
+    where: { id },
+  });
+}
+
+async function findEnrollmentByUserId(userId: number): Promise<Enrollment> {
+  return prisma.enrollment.findUnique({
+    where: { userId },
+  });
+}
+
 async function upsert(
   userId: number,
   createdEnrollment: CreateEnrollmentParams,
@@ -25,10 +37,13 @@ async function upsert(
 }
 
 export type CreateEnrollmentParams = Omit<Enrollment, 'id' | 'createdAt' | 'updatedAt'>;
+
 export type UpdateEnrollmentParams = Omit<CreateEnrollmentParams, 'userId'>;
 
 const enrollmentRepository = {
   findWithAddressByUserId,
+  findEnrollmentById,
+  findEnrollmentByUserId,
   upsert,
 };
 
