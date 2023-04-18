@@ -1,9 +1,7 @@
 import { prisma } from '@/config';
 
 async function findTickets() {
-  const tickets = await prisma.ticket.findMany({
-    include: { TicketType: true },
-  });
+  const tickets = await prisma.ticket.findMany({ include: { TicketType: true } });
   return tickets;
 }
 
@@ -33,6 +31,8 @@ async function updateTicketById(ticketId: number) {
   const updatedTicket = await prisma.ticket.update({ where: { id: ticketId }, data: { status: 'PAID' } });
   return updatedTicket;
 }
+
+// Coment here
 
 const ticketRepository = {
   findTickets,

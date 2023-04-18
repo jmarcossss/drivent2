@@ -40,6 +40,7 @@ export async function createPayment(_req: AuthenticatedRequest, res: Response) {
   const paymentInfo = _req.body as PaymentInfoType;
   const { userId } = _req as { userId: number };
 
+  // Coment here for reference
   try {
     const payment = await paymentsService.createPayment({ paymentInfo, userId });
     res.status(httpStatus.OK).send(payment);

@@ -30,6 +30,7 @@ export async function createTicket(_req: AuthenticatedRequest, res: Response) {
   const { ticketTypeId } = _req.body as { ticketTypeId: number };
   const { userId } = _req as { userId: number };
 
+  // Coment here for testing
   try {
     const response = await ticketsService.createTicket({ ticketTypeId, userId });
     const typeResponse = await ticketsService.getTicketType(ticketTypeId);

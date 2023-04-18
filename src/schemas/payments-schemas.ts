@@ -4,6 +4,7 @@ type CreatePaymentType = {
   ticketId: number;
   cardData: { issuer: string; number: number; name: string; expirationDate: Date; cvv: number };
 };
+// Coment heree for test
 
 const ticketIdSchema = Joi.number().required();
 const cardDataSchema = Joi.object().required();

@@ -5,7 +5,6 @@ async function findPayments() {
   const payments = await prisma.payment.findMany();
   return payments;
 }
-
 async function createPayment({ ticketId, cardData, value }: PaymentInfoType & { value: number }) {
   const payment = await prisma.payment.create({
     data: { ticketId, cardIssuer: cardData.issuer, cardLastDigits: String(cardData.number).slice(-4), value: value },
@@ -14,5 +13,5 @@ async function createPayment({ ticketId, cardData, value }: PaymentInfoType & { 
 }
 
 const paymentsRepository = { findPayments, createPayment };
-
+// Coment here for testing
 export default paymentsRepository;
